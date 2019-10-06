@@ -36,9 +36,18 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
     implementation 'com.google.android.material:material:1.0.0'
+
+//    Dagger2
     implementation 'com.google.dagger:dagger:2.24'
     kapt 'com.google.dagger:dagger-compiler:2.24'
     kapt 'com.google.dagger:dagger-android-processor:2.24'
     implementation 'com.google.dagger:dagger-android:2.24'
     implementation 'com.google.dagger:dagger-android-support:2.24'
+
+//    Leak Canary
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.0-beta-3'
+
+//    Butterknife
+    implementation 'com.jakewharton:butterknife:10.2.0'
+    kapt 'com.jakewharton:butterknife-compiler:10.2.0'
 }
