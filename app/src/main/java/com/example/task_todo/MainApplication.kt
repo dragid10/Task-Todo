@@ -1,19 +1,22 @@
 package com.example.task_todo
 
-import android.app.Application
-import com.example.task_todo.di.component.AppComponent
-import com.example.task_todo.di.component.DaggerAppComponent
-import com.example.task_todo.di.module.AppModule
+import com.example.task_todo.di.app.AppComponent
+import com.example.task_todo.di.app.DaggerAppComponent
+import dagger.android.AndroidInjector
+import dagger.android.DaggerApplication
 
-class MainApplication : Application() {
+class MainApplication : DaggerApplication() {
+    //    ====================== VARIABLES ======================
     lateinit var appComponent: AppComponent
-    override fun onCreate() {
-        super.onCreate()
-        appComponent = initDagger(this)
+
+    //    ====================== LIFECYCLE METHODS ======================
+
+    //    ====================== CONTRACT METHODS ======================
+    override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
+        appComponent = DaggerAppComponent.builder().build()
+        appComponent.inject(this)
+        return appComponent
     }
 
-    private fun initDagger(app: MainApplication): AppComponent =
-        DaggerAppComponent.builder()
-            .appModule(AppModule(app))
-            .build()
+    //    ====================== METHODS ======================
 }

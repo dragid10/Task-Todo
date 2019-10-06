@@ -11,8 +11,9 @@ interface TaskContract {
 //        fun createTask(taskDetails: String)
     }
 
-    interface Presenter {
+    interface Presenter<View> {
         fun saveTaskDetails(taskDetails: String)
         fun startCreateTask()
+        fun setView(view: View)
     }
 }

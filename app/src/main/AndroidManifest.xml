@@ -3,6 +3,7 @@
     package="com.example.task_todo">
 
     <application
+        android:name="com.example.task_todo.MainApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
