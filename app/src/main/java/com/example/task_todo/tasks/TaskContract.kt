@@ -1,17 +1,20 @@
 package com.example.task_todo.tasks
 
+import com.example.task_todo.tasks.model.Task
+
 interface TaskContract {
     interface Model {
 //        fun saveNewTask(newTask: Task)
     }
 
     interface View {
-        //        fun setPresenter(presenter: TaskContract.Presenter) - Method injection should not be used for top-level components
         fun showNewTaskPopup()
-//        fun createTask(taskDetails: String)
+        fun updateTaskList(taskList: ArrayList<Task>)
+
     }
 
     interface Presenter<View> {
+        val taskList: ArrayList<Task>
         fun saveTaskDetails(taskDetails: String)
         fun startCreateTask()
         fun setView(view: View)

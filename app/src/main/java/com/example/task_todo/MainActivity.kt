@@ -14,6 +14,7 @@ class MainActivity : DaggerAppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this) // Inject the activity with Dagger
         super.onCreate(savedInstanceState)
+        supportActionBar!!.hide()
         setContentView(R.layout.activity_main)
     }
 

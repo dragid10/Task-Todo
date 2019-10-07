@@ -11,6 +11,7 @@ import android.widget.TextView
 import butterknife.BindView
 import butterknife.ButterKnife
 import com.example.task_todo.R
+import com.example.task_todo.util.showKeyboard
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.android.support.DaggerDialogFragment
 
@@ -33,6 +34,8 @@ class AddTaskDialogFragment : DaggerDialogFragment() {
         ) // Inflate view and pass to dialog builder
 
         ButterKnife.bind(this, view) // Bind widgets with butterknife
+
+        userTextInput.showKeyboard()
         return MaterialAlertDialogBuilder(activity)
 //        Dialog customization options
             .setCustomTitle(title)
@@ -40,7 +43,7 @@ class AddTaskDialogFragment : DaggerDialogFragment() {
 
 //                REALLY cheap and crappy hack to get use input back from dialog fragment
             // TODO - You know you'll have to change this.
-            .setPositiveButton("Save") { dialog, which ->
+            .setPositiveButton("Save") { _, _ ->
                 val input = userTextInput.text.toString().trim()
                 Log.d(AddTaskDialogFragment::class.java.canonicalName, input)
                 requireFragmentManager().fragments[0].onActivityResult(

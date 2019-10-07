@@ -1,4 +1,5 @@
 package com.example.task_todo.tasks.model
 
-class TaskRepository {
+interface TaskRepository {
+    fun saveNewTask(taskDetails: String): Task
 }

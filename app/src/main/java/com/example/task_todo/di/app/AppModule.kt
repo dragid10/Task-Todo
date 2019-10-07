@@ -1,4 +1,4 @@
-package com.example.task_todo.di.module
+package com.example.task_todo.di.app
 
 import android.app.Application
 import android.content.Context

@@ -1,6 +1,5 @@
-package com.example.task_todo.di.component
+package com.example.task_todo.di.task
 
-import com.example.task_todo.di.module.TaskModule
 import dagger.Component
 
 @Component(modules = [TaskModule::class])
