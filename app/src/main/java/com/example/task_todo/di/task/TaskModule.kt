@@ -1,4 +1,4 @@
-package com.example.task_todo.di.module
+package com.example.task_todo.di.task
 
 import com.example.task_todo.tasks.TaskContract
 import com.example.task_todo.tasks.presenter.TaskPresenter
