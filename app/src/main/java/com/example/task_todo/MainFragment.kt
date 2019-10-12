@@ -21,7 +21,8 @@ import dagger.android.support.AndroidSupportInjection
 import dagger.android.support.DaggerFragment
 import javax.inject.Inject
 
-class MainFragment : DaggerFragment(), TaskContract.View {
+class MainFragment : DaggerFragment(), TaskContract.View,
+    TaskListRecyclerAdapter.OnTaskClickListener {
     //    ====================== VARIABLES ======================
     @BindView(R.id.fab_add_task)
     lateinit var addTaskButton: FloatingActionButton
@@ -32,7 +33,6 @@ class MainFragment : DaggerFragment(), TaskContract.View {
     @Inject
     lateinit var presenter: TaskContract.Presenter<TaskContract.View> // Step 3: Specify what's being injected
 
-    private lateinit var linearLayoutManager: LinearLayoutManager
     private lateinit var taskAdapter: TaskListRecyclerAdapter
 
     //    ====================== LIFECYCLE METHODS ======================
@@ -55,13 +55,11 @@ class MainFragment : DaggerFragment(), TaskContract.View {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         presenter.setView(this)
-        linearLayoutManager = LinearLayoutManager(context)
-        taskRecyclerView.layoutManager = linearLayoutManager
-        taskAdapter = TaskListRecyclerAdapter(presenter.taskList)
-        taskRecyclerView.adapter = taskAdapter
+        setupRecyclerView()
         initListeners()
 
     }
+
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -82,11 +80,16 @@ class MainFragment : DaggerFragment(), TaskContract.View {
 
     //    ====================== CONTRACT METHODS ======================
     override fun showNewTaskPopup() {
+//        Show add task dialog
         findNavController().navigate(R.id.addTaskDialogFragment)
     }
 
-    override fun updateTaskList(taskList: ArrayList<Task>) {
-        taskAdapter.notifyItemInserted(taskList.size - 1)
+    override fun updateTaskList(taskList: List<Task>) {
+        taskAdapter.notifyDataSetChanged()
+    }
+
+    override fun onTaskClick(taskPosition: Int) {
+        presenter.deleteTask(taskPosition)
     }
 
     //    ====================== METHODS ======================
@@ -96,5 +99,13 @@ class MainFragment : DaggerFragment(), TaskContract.View {
             presenter.startCreateTask()
         }
     }
+
+    private fun setupRecyclerView() {
+        val linearLayoutManager = LinearLayoutManager(context)
+        taskRecyclerView.layoutManager = linearLayoutManager
+        taskAdapter = TaskListRecyclerAdapter(presenter.taskList, this)
+        taskRecyclerView.adapter = taskAdapter
+    }
+
 
 }
