@@ -15,11 +15,12 @@ import butterknife.BindView
 import butterknife.ButterKnife
 import com.example.task_todo.tasks.TaskContract
 import com.example.task_todo.tasks.model.Task
+import com.example.task_todo.tasks.model.TaskRepository
+import com.example.task_todo.tasks.presenter.TaskPresenter
 import com.example.task_todo.tasks.view.TaskListRecyclerAdapter
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import dagger.android.support.AndroidSupportInjection
 import dagger.android.support.DaggerFragment
-import javax.inject.Inject
 
 class MainFragment : DaggerFragment(), TaskContract.View,
     TaskListRecyclerAdapter.OnTaskClickListener {
@@ -30,8 +31,7 @@ class MainFragment : DaggerFragment(), TaskContract.View,
     @BindView(R.id.recyclerView_task_list)
     lateinit var taskRecyclerView: RecyclerView
 
-    @Inject
-    lateinit var presenter: TaskContract.Presenter<TaskContract.View> // Step 3: Specify what's being injected
+    val presenter: TaskContract.Presenter<TaskContract.View> = TaskPresenter(this, TaskRepository()) // Step 3: Specify what's being injected
 
     private lateinit var taskAdapter: TaskListRecyclerAdapter
 
@@ -54,7 +54,7 @@ class MainFragment : DaggerFragment(), TaskContract.View,
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        presenter.setView(this)
+//        presenter.setView(this)
         setupRecyclerView()
         initListeners()
 
@@ -103,7 +103,7 @@ class MainFragment : DaggerFragment(), TaskContract.View,
     private fun setupRecyclerView() {
         val linearLayoutManager = LinearLayoutManager(context)
         taskRecyclerView.layoutManager = linearLayoutManager
-        taskAdapter = TaskListRecyclerAdapter(presenter.taskList, this)
+        taskAdapter = TaskListRecyclerAdapter(presenter.getTaskList(), this)
         taskRecyclerView.adapter = taskAdapter
     }
 

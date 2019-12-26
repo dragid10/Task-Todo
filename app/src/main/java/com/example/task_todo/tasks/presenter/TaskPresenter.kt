@@ -2,13 +2,12 @@ package com.example.task_todo.tasks.presenter
 
 import com.example.task_todo.tasks.TaskContract
 import com.example.task_todo.tasks.model.Task
-import com.example.task_todo.tasks.model.TaskManager
-import com.example.task_todo.util.TASK_DB
 
-class TaskPresenter : TaskContract.Presenter<TaskContract.View> {
-    private lateinit var view: TaskContract.View
-    private val taskManager: TaskContract.TaskRepository = TaskManager()
-    override val taskList: List<Task> = TASK_DB
+class TaskPresenter(
+    private val view: TaskContract.View,
+    private val taskRepository: TaskContract.TaskManager
+) : TaskContract.Presenter<TaskContract.View> {
+//    private val taskRepository: TaskContract.TaskManager = TaskRepository(TASK_DB)
 
 
     override fun startCreateTask() {
@@ -16,15 +15,17 @@ class TaskPresenter : TaskContract.Presenter<TaskContract.View> {
     }
 
     override fun saveTaskDetails(taskDetails: String) {
-        val savedTask = taskManager.saveNewTask(taskDetails)
+//        val savedTask = taskRepository.saveNewTask(taskDetails)
+        taskRepository.saveNewTask(taskDetails)
     }
 
     override fun deleteTask(taskNum: Int) {
-        taskManager.deleteTask(taskNum)
-        view.updateTaskList(taskList)
+        taskRepository.deleteTask(taskNum)
+//        view.updateTaskList(getTaskList())
+        view.updateTaskList(getTaskList())
     }
 
-    override fun setView(view: TaskContract.View) {
-        this.view = view
+    override fun getTaskList(): List<Task> {
+        return taskRepository.getTaskList()
     }
 }
